@@ -20,19 +20,39 @@ let typingInterval = null
    CONTENT - URUTAN FINAL
 ====================== */
 const story = [
-  { type: 'text', content: 'Hai {name}, terimakasih sudah bersedia masuk kesini' },
+  { type: 'text', content: 'Hahaha masukin nama siapapun orangnya juga udah pasti kamu, websitenya kan khusus dibuat untuk dibaca kamu' },
+  { type: 'text', content: 'Jadi, aku mau bilang sesuatu nih sama kamu' },
   { type: 'text', content: 'Kamu tau kan aku lagi jatuh suka sama seseorang?' },
-  { type: 'text', content: 'Dan, selama ini kamu tanya itu siapa kan?' },
+  { type: 'text', content: 'dan, selama ini kamu tanya itu siapa, kan?' },
   { type: 'text', content: 'Dr. Fachrudin Faiz bilang' },
   { type: 'video', video: 'confess.mp4', duration: 16000 },
   { type: 'text', content: 'Sebenarnya aku sudah bilang dan harusnya kamu tahu :)' },
   { type: 'text', content: 'Kalau belum gapapa, aku ingetin lagi' },
-  { type: 'text', content: 'Jatuh suka' },
+  { type: 'text', content: 'Tentang puisi "Jatuh suka"' },
   { type: 'video', video: 'suka.mp4', duration: 45000 },
-  { type: 'text', content: 'Aku juga gatau sejak kapan dia tumbuh' },
-  { type: 'text', content: 'Aku juga gatau sejak kapan dia mekar dengan megah' },
-  { type: 'text', content: 'Tapi, terimakasih sudah menghias kebunku yang gersang dengan mekar cantikmu' },
-  { type: 'text', content: 'Terimakasih..' }
+  { type: 'text', content: 'Ya, aku suka dia, si pemilik nama Resti itu' },
+  { type: 'text', content: 'Tidak semua confess itu harus berakhir diterima dan bersama, kan?' },
+  { type: 'text', content: 'Menolak juga bagian dari hak asasi manusia yang melekat padamu' },
+  { type: 'text', content: 'Apapun jawaban setelah ini, itu tidak akan mengurangi rasa syukurku mengenalmu.' },
+  { type: 'text', content: 'Namun, kalau kamu terpikir kok bisa? sejak kapan? dan apa yang kusuka darimu?' },
+  { type: 'text', content: 'Mungkin semua dimulai sejak kita ngopi bareng Zulfa waktu itu' },
+  { type: 'text', content: 'Tepat saat kamu menanggapi cerita putusku dengan antusiasmu...' },
+  { type: 'text', content: 'dan aku menatapmu' },
+  { type: 'text', content: 'Sejak saat itu...' },
+  { type: 'text', content: 'Aku suka bagaimana caramu menatapku' },
+  { type: 'text', content: 'Aku suka suara tawamu' },
+  { type: 'text', content: 'Aku pun suka cara kita mengobrol lewat chat tiap hari itu' },
+  { type: 'text', content: 'dan dengan waktu terjadi yang sesingkat itu' },
+  { type: 'text', content: 'Aku jatuh suka padamu' },
+  { type: 'text', content: 'Aku pernah seperti interaksi dari Tulus, meminta kepada Tuhan' },
+  { type: 'text', content: 'Jika memang bukan, tolong redalah perasaan ini, dan yaps malah membara' },
+  { type: 'text', content: 'Barangkali benar memang manusia tidak bisa memilih kapan untuk jatuh cinta' },
+  { type: 'text', content: 'Sekalipun tidak pernah terpkirkan sebelumnya olehku, bahwa akan ada bunga di kebunku' },
+  { type: 'text', content: 'Setelah sekian lama gersang, tiba-tiba kau hadir dan tumbuh dengan menawan' },  
+  { type: 'text', content: 'Terimakasih sudah menghias kebunku dengan mekar cantikmu' },
+  { type: 'text', content: 'Btw, judul backsound lagu ini "Simfoni yang Indah"' },
+  { type: 'text', content: 'Meski kamu bukan simfoni, kamu jauh lebih indah (hehe aman lah ya tipis-tipis)' },
+  { type: 'text', content: 'Sekali lagi, terimakasih, aku menyukaimu' }
 ]
 
 /* ======================
@@ -63,11 +83,41 @@ const ambientLights = Array.from({ length: 8 }, (_, i) => ({
 /* ======================
    THEME - Warna Mewah & Deep
 ====================== */
+/* ======================
+   THEME - Warna Mewah & Deep (Adjusted)
+====================== */
 const bgColor = computed(() => {
-  if (phase.value === 1) return 'linear-gradient(135deg, #1a1625 0%, #2d1b3d 50%, #3d2147 100%)'
-  if (phase.value >= 2 && phase.value <= 4) return 'linear-gradient(135deg, #0f0c1d 0%, #1a1534 50%, #251e47 100%)'
-  if (phase.value >= 5 && phase.value <= 9) return 'linear-gradient(135deg, #1a0f1f 0%, #2d1534 50%, #3d1f47 100%)'
-  if (phase.value >= 10) return 'linear-gradient(135deg, #1f0f2d 0%, #331947 50%, #47235d 100%)'
+  // Phase 1-6: Intro & Filosofi (Deep Purple/Blackish)
+  if (phase.value >= 1 && phase.value <= 6) {
+    return 'linear-gradient(135deg, #0f0c29 0%, #191236 50%, #24243e 100%)'
+  }
+  
+  // Phase 7-10: Pengakuan & Video Suka (Deep Maroon/Wine)
+  if (phase.value >= 7 && phase.value <= 10) {
+    return 'linear-gradient(135deg, #2c0814 0%, #4a0e1c 50%, #1a050d 100%)'
+  }
+  
+  // Phase 11-18: Flashback/Kenangan (Warm Brown/Amber Deep)
+  if (phase.value >= 11 && phase.value <= 18) {
+    return 'linear-gradient(135deg, #1a0f05 0%, #3d230b 50%, #1a0f05 100%)'
+  }
+  
+  // Phase 19-24: Ekspresi Kagum (Elegant Rose/Violet)
+  if (phase.value >= 19 && phase.value <= 24) {
+    return 'linear-gradient(135deg, #2d132c 0%, #510a32 50%, #801336 100%)'
+  }
+  
+  // Phase 25-30: Analogi Kebun & Bunga (Deep Forest/Midnight Green)
+  if (phase.value >= 25 && phase.value <= 30) {
+    return 'linear-gradient(135deg, #0d1b1e 0%, #132a13 50%, #0d1b1e 100%)'
+  }
+  
+  // Phase 31 - Selesai: Simfoni & Penutup (Royal Purple Gold)
+  if (phase.value >= 31) {
+    return 'linear-gradient(135deg, #1f0f2d 0%, #331947 50%, #47235d 100%)'
+  }
+  
+  // Default fallback
   return 'linear-gradient(135deg, #1a1625 0%, #2d1b3d 100%)'
 })
 
@@ -207,7 +257,7 @@ onUnmounted(() => {
           <h1 class="text-4xl md:text-5xl font-bold text-white drop-shadow-lg">
             Halo 👋
           </h1>
-          <p class="text-gray-300 text-base md:text-lg font-medium">Ada yang ingin aku sampaikan...</p>
+          <p class="text-gray-300 text-base md:text-lg font-medium">Aku mau sedikit cerita...</p>
         </div>
 
         <div class="space-y-2">
@@ -215,7 +265,7 @@ onUnmounted(() => {
             <input
               v-model="name"
               @keypress="handleKeyPress"
-              placeholder="Nama kamu..."
+              placeholder="kasih tau dulu namamu ya..."
               class="w-full px-5 py-3.5 rounded-full border-2 border-purple-400/30 text-white text-base md:text-lg font-medium focus:outline-none focus:border-purple-400 focus:ring-4 focus:ring-purple-500/20 transition-all shadow-xl text-center bg-white/10 backdrop-blur-md placeholder-gray-400"
             />
           </div>
@@ -226,7 +276,7 @@ onUnmounted(() => {
             class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full font-bold text-lg md:text-xl text-white shadow-2xl active:scale-95 transition-all disabled:opacity-50 px-5 hover:from-purple-700 hover:to-pink-700"
             style="filter: drop-shadow(0 8px 20px rgba(168, 85, 247, 0.4))"
           >
-            Mulai 💬
+            Mulai Cerita
           </button>
           
           <p class="text-gray-400 text-xs md:text-sm pt-1">Tekan "Enter" setelah mengisi nama</p>
@@ -255,17 +305,18 @@ onUnmounted(() => {
 
       <div v-else-if="phase === 999" class="w-full max-w-sm mx-auto px-6 fade-in-up">
         <div class="bg-white/5 backdrop-blur-xl rounded-[3rem] p-10 shadow-2xl border border-white/10 text-center">
-          <h2 class="text-6xl mb-4">💕</h2>
-          <p class="text-2xl md:text-3xl font-bold text-white break-words">
-            {{ name }}
-          </p>
+          <h2 class="text-2md mb-4">dibuat dengan penuh rasa suka 💕 <br> kepada pemilik nama </h2>
+          <p class="text-4xl md:text-3xl font-bold text-white break-words"> RESTI</p>
+          <h2 class="text-2md mb-4">dari aku</h2>
+          <p class="text-2xl md:text-2md font-bold text-white break-words"> Yang Sedang Duduk di Sebelahmu</p>
+          
         </div>
       </div>
     </section>
 
     <footer v-if="phase === 999" class="p-8 text-center fade-in-up">
       <div class="inline-block bg-white/5 backdrop-blur-xl px-6 py-3 rounded-full border border-white/10 shadow-xl">
-        <p class="text-white text-sm font-medium">Terima kasih sudah membaca sampai akhir</p>
+        <p class="text-white text-sm font-medium">Info lebih lanjut tanyakan ke cowok dideketmu itu</p>
       </div>
     </footer>
 
