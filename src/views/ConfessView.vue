@@ -10,9 +10,9 @@ const text = ref('')
 const showVideo = ref(false)
 const currentVideoIndex = ref(0)
 
-const bgMusic = new Audio('/src/assets/musics/symponi.mp3')
-bgMusic.loop = true // Agar lagu mengulang otomatis
-bgMusic.volume = 0.3 // Volume kecil (0.0 sampai 1.0)
+const bgMusic = new Audio('music/symponi.mp3')
+bgMusic.loop = true
+bgMusic.volume = 0.3
 
 let typingInterval = null
 
@@ -24,11 +24,11 @@ const story = [
   { type: 'text', content: 'Kamu tau kan aku lagi jatuh suka sama seseorang?' },
   { type: 'text', content: 'Dan, selama ini kamu tanya itu siapa kan?' },
   { type: 'text', content: 'Dr. Fachrudin Faiz bilang' },
-  { type: 'video', video: 'confess.mp4', duration: 16000 }, // 16 detik
+  { type: 'video', video: 'confess.mp4', duration: 16000 },
   { type: 'text', content: 'Sebenarnya aku sudah bilang dan harusnya kamu tahu :)' },
   { type: 'text', content: 'Kalau belum gapapa, aku ingetin lagi' },
   { type: 'text', content: 'Jatuh suka' },
-  { type: 'video', video: 'suka.mp4', duration: 45000 }, // 45 detik
+  { type: 'video', video: 'suka.mp4', duration: 45000 },
   { type: 'text', content: 'Aku juga gatau sejak kapan dia tumbuh' },
   { type: 'text', content: 'Aku juga gatau sejak kapan dia mekar dengan megah' },
   { type: 'text', content: 'Tapi, terimakasih sudah menghias kebunku yang gersang dengan mekar cantikmu' },
@@ -40,40 +40,35 @@ const story = [
 ====================== */
 const rand = (min, max) => Math.random() * (max - min) + min
 
-const hearts = Array.from({ length: 25 }, (_, i) => ({
-  id: i,
-  left: rand(0, 100),
-  size: rand(16, 36),
-  duration: rand(12, 22),
-  delay: rand(0, 10)
-}))
-
-const stars = Array.from({ length: 40 }, (_, i) => ({
+// Floating particles - lebih sedikit, lebih elegan
+const floatingParticles = Array.from({ length: 15 }, (_, i) => ({
   id: i,
   left: rand(0, 100),
   top: rand(0, 100),
-  duration: rand(2, 5),
-  delay: rand(0, 5)
+  size: rand(3, 8),
+  duration: rand(15, 25),
+  delay: rand(0, 10)
 }))
 
-const sparkles = Array.from({ length: 15 }, (_, i) => ({
+// Ambient lights - efek cahaya lembut
+const ambientLights = Array.from({ length: 8 }, (_, i) => ({
   id: i,
-  left: rand(5, 95),
+  left: rand(10, 90),
   top: rand(10, 90),
-  size: rand(4, 10),
-  duration: rand(3, 6),
-  delay: rand(0, 4)
+  size: rand(100, 200),
+  duration: rand(8, 15),
+  delay: rand(0, 8)
 }))
 
 /* ======================
-   THEME
+   THEME - Warna Mewah & Deep
 ====================== */
 const bgColor = computed(() => {
-  if (phase.value === 1) return 'linear-gradient(135deg, #FFE5EC 0%, #FFC1E3 50%, #FFB3D9 100%)'
-  if (phase.value >= 2 && phase.value <= 4) return 'linear-gradient(135deg, #0A0E27 0%, #1a1f4d 50%, #2a1f4d 100%)'
-  if (phase.value >= 5 && phase.value <= 9) return 'linear-gradient(135deg, #1A0008 0%, #4a0520 50%, #6a0830 100%)'
-  if (phase.value >= 10) return 'linear-gradient(135deg, #2D0A1F 0%, #5a1f4d 50%, #7a2f6d 100%)'
-  return 'linear-gradient(135deg, #FFF0F5 0%, #FFE4F0 100%)'
+  if (phase.value === 1) return 'linear-gradient(135deg, #1a1625 0%, #2d1b3d 50%, #3d2147 100%)'
+  if (phase.value >= 2 && phase.value <= 4) return 'linear-gradient(135deg, #0f0c1d 0%, #1a1534 50%, #251e47 100%)'
+  if (phase.value >= 5 && phase.value <= 9) return 'linear-gradient(135deg, #1a0f1f 0%, #2d1534 50%, #3d1f47 100%)'
+  if (phase.value >= 10) return 'linear-gradient(135deg, #1f0f2d 0%, #331947 50%, #47235d 100%)'
+  return 'linear-gradient(135deg, #1a1625 0%, #2d1b3d 100%)'
 })
 
 /* ======================
@@ -106,7 +101,6 @@ const showVideoContent = (videoFile, duration) => {
     text.value = ''
     showVideo.value = true
     
-    // Matikan volume musik saat video mulai
     bgMusic.volume = 0 
     
     setTimeout(() => {
@@ -120,11 +114,10 @@ const showVideoContent = (videoFile, duration) => {
 /* ======================
    STORY FLOW
 ====================== */
-
 const startStory = async () => {
   if (!name.value.trim()) return
   
-  bgMusic.play().catch(console.log("Autoplay blocked"))
+  bgMusic.play().catch(console.log)
   
   phase.value = 2
   let videoCount = 0
@@ -145,7 +138,7 @@ const startStory = async () => {
     }
   }
 
-  phase.value = 999 // Akhiri cerita
+  phase.value = 999
 }
 
 /* ======================
@@ -170,179 +163,171 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <main class="min-h-screen relative overflow-x-hidden text-white flex flex-col">
+  <main class="min-h-screen relative overflow-hidden text-white flex flex-col">
 
     <div
-      class="fixed inset-0 -z-10 transition-all duration-1000 pointer-events-none"
+      class="fixed inset-0 -z-10 transition-all duration-1000 pointer-events-none overflow-hidden"
       :style="{ background: bgColor }"
     >
-      <div
-        v-for="h in hearts"
-        :key="h.id"
-        class="absolute bottom-[-60px] float-heart"
-        :style="{
-          left: h.left + '%',
-          animationDuration: h.duration + 's',
-          animationDelay: h.delay + 's'
+      <!-- Ambient Light Effects -->
+      <div 
+        v-for="light in ambientLights" 
+        :key="'light'+light.id" 
+        class="absolute ambient-glow rounded-full blur-3xl" 
+        :style="{ 
+          left: light.left + '%', 
+          top: light.top + '%', 
+          width: light.size + 'px',
+          height: light.size + 'px',
+          animationDuration: light.duration + 's', 
+          animationDelay: light.delay + 's' 
+        }"
+      ></div>
+      
+      <!-- Floating Particles -->
+      <div 
+        v-for="p in floatingParticles" 
+        :key="'particle'+p.id" 
+        class="absolute floating-particle" 
+        :style="{ 
+          left: p.left + '%', 
+          top: p.top + '%',
+          animationDuration: p.duration + 's', 
+          animationDelay: p.delay + 's' 
         }"
       >
-        <svg :width="h.size" :height="h.size" viewBox="0 0 24 24" fill="#ff69b4" stroke="#ff1493" stroke-width="1.5" style="filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.6))">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l7.78-7.78a5.5 5.5 0 0 0 0-7.78z" />
-        </svg>
-      </div>
-
-      <div
-        v-for="s in stars"
-        :key="'s'+s.id"
-        class="absolute twinkle-star"
-        :style="{
-          left: s.left + '%',
-          top: s.top + '%',
-          animationDuration: s.duration + 's',
-          animationDelay: s.delay + 's'
-        }"
-      >
-        <svg width="6" height="6" viewBox="0 0 24 24" fill="#ffffff" style="filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8))">
-          <polygon points="12,2 15,10 23,10 17,15 19,23 12,18 5,23 7,15 1,10 9,10" />
-        </svg>
-      </div>
-
-      <div
-        v-for="sp in sparkles"
-        :key="'sp'+sp.id"
-        class="absolute sparkle-effect"
-        :style="{
-          left: sp.left + '%',
-          top: sp.top + '%',
-          animationDuration: sp.duration + 's',
-          animationDelay: sp.delay + 's'
-        }"
-      >
-        <svg :width="sp.size" :height="sp.size" viewBox="0 0 24 24" fill="#ffed4e" stroke="#ffd700" stroke-width="2" style="filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.7))">
-          <path d="M12 0l1.5 8.5L22 10l-8.5 1.5L12 20l-1.5-8.5L2 10l8.5-1.5z" />
-          <path d="M12 4l.5 4L16 8.5l-3.5.5L12 13l-.5-4L8 8.5l3.5-.5z" />
-        </svg>
+        <div class="particle-dot" :style="{ width: p.size + 'px', height: p.size + 'px' }"></div>
       </div>
     </div>
 
-    <section class="flex-1 flex items-center justify-center p-4 md:p-8 text-center relative z-10 w-full mx-auto max-w-[100vw]">
+    <section class="flex-1 flex items-center justify-center py-8 text-center relative z-10">
       
-      <div v-if="phase === 1" class="w-full max-w-[350px] space-y-8 fade-in-up">
+      <div v-if="phase === 1" class="w-full max-w-sm mx-auto px-6 space-y-8 fade-in-up">
         <div class="space-y-3">
-          <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.1)">
+          <h1 class="text-4xl md:text-5xl font-bold text-white drop-shadow-lg">
             Halo 👋
           </h1>
-          <p class="text-gray-600 text-base md:text-xl font-medium px-2">Ada yang ingin aku sampaikan...</p>
+          <p class="text-gray-300 text-base md:text-lg font-medium">Ada yang ingin aku sampaikan...</p>
         </div>
 
-        <div class="space-y-4">
-          <input
-            v-model="name"
-            @keypress="handleKeyPress"
-            placeholder="Nama kamu..."
-            class="w-full px-5 py-4 rounded-2xl border-2 border-pink-300 text-gray-800 text-lg font-semibold focus:outline-none focus:border-pink-500 focus:ring-4 focus:ring-pink-200 transition-all shadow-xl appearance-none bg-white/90"
-          />
+        <div class="space-y-2">
+          <div class="w-full">
+            <input
+              v-model="name"
+              @keypress="handleKeyPress"
+              placeholder="Nama kamu..."
+              class="w-full px-5 py-3.5 rounded-full border-2 border-purple-400/30 text-white text-base md:text-lg font-medium focus:outline-none focus:border-purple-400 focus:ring-4 focus:ring-purple-500/20 transition-all shadow-xl text-center bg-white/10 backdrop-blur-md placeholder-gray-400"
+            />
+          </div>
 
           <button
             @click="startStory"
             :disabled="!name.trim()"
-            :class="[
-              'w-full py-4 bg-gradient-to-r from-pink-500 to-rose-500 rounded-2xl font-bold text-xl text-white shadow-2xl active:scale-95 transition-all transform disabled:opacity-50 disabled:cursor-not-allowed',
-              name.trim() ? 'pulse-btn' : ''
-            ]"
+            class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full font-bold text-lg md:text-xl text-white shadow-2xl active:scale-95 transition-all disabled:opacity-50 px-5 hover:from-purple-700 hover:to-pink-700"
+            style="filter: drop-shadow(0 8px 20px rgba(168, 85, 247, 0.4))"
           >
             Mulai 💬
           </button>
+          
+          <p class="text-gray-400 text-xs md:text-sm pt-1">Tekan "Enter" setelah mengisi nama</p>
         </div>
       </div>
 
-      <div v-else-if="phase > 1 && phase < 999" class="w-full max-w-2xl fade-in-up px-2">
-        <div v-if="!showVideo" class="bg-white/10 backdrop-blur-md rounded-[2.5rem] p-6 md:p-12 shadow-2xl border border-white/20 mx-auto">
-          <p 
-            class="text-2xl md:text-5xl font-bold leading-snug md:leading-relaxed text-white drop-shadow-lg"
-            style="word-wrap: break-word; overflow-wrap: break-word;"
-          >
+      <div v-else-if="phase > 1 && phase < 999" class="w-full max-w-2xl mx-auto px-6 fade-in-up">
+        <div v-if="!showVideo" class="bg-white/5 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 border border-white/10 shadow-2xl">
+          <p class="text-2xl md:text-4xl font-bold leading-relaxed text-white drop-shadow-2xl">
             {{ text }}
-            <span class="inline-block w-1 h-8 md:h-14 ml-1 bg-white typing-cursor"></span>
+            <span class="inline-block w-1 h-8 md:h-12 ml-1 bg-purple-400 typing-cursor"></span>
           </p>
         </div>
 
         <div v-else class="flex justify-center items-center">
-          <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/30 w-full max-w-[280px] md:max-w-[360px]">
-            <video 
-              autoplay
-              playsinline
-              class="w-full h-auto object-cover aspect-[9/16]"
-            >
-              <source :src="`/src/assets/videos/${getCurrentVideo}`" type="video/mp4">
-            </video>
+          <div class="relative w-full max-w-[280px]">
+            <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 blur-2xl"></div>
+            <div class="relative bg-white/5 backdrop-blur-xl overflow-hidden shadow-2xl border border-white/10">
+              <video autoplay playsinline class="w-full h-auto aspect-[9/16] object-cover">
+                <source :src="`video/${getCurrentVideo}`" type="video/mp4">
+              </video>
+            </div>
           </div>
         </div>
       </div>
 
-      <div v-else-if="phase === 999" class="w-full max-w-md fade-in-up px-4">
-        <div class="bg-white/20 backdrop-blur-lg rounded-[3rem] p-8 md:p-12 shadow-2xl border border-white/30">
-          <h2 class="text-6xl mb-4 drop-shadow-md">💕</h2>
-          <p class="text-2xl md:text-4xl font-bold text-white break-words">
+      <div v-else-if="phase === 999" class="w-full max-w-sm mx-auto px-6 fade-in-up">
+        <div class="bg-white/5 backdrop-blur-xl rounded-[3rem] p-10 shadow-2xl border border-white/10 text-center">
+          <h2 class="text-6xl mb-4">💕</h2>
+          <p class="text-2xl md:text-3xl font-bold text-white break-words">
             {{ name }}
           </p>
         </div>
       </div>
     </section>
 
-    <div
-      v-if="phase === 999"
-      class="p-6 w-full text-center fade-in-up mt-auto"
-    >
-      <div class="inline-block bg-white/20 backdrop-blur-md px-6 py-3 rounded-full border border-white/30 shadow-lg">
-        <p class="text-white font-semibold text-sm md:text-lg flex items-center justify-center gap-2">
-          Terima kasih sudah membaca sampai akhir
-        </p>
+    <footer v-if="phase === 999" class="p-8 text-center fade-in-up">
+      <div class="inline-block bg-white/5 backdrop-blur-xl px-6 py-3 rounded-full border border-white/10 shadow-xl">
+        <p class="text-white text-sm font-medium">Terima kasih sudah membaca sampai akhir</p>
       </div>
-    </div>
+    </footer>
 
   </main>
 </template>
 
+<style>
+  main * {
+    padding: 8px;
+  }
+  </style>
+
 <style scoped>
-@keyframes floatUp {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(-110vh) rotate(360deg);
-    opacity: 0;
-  }
-}
-
-@keyframes twinkle {
+/* Ambient Glow - cahaya lembut bergerak */
+@keyframes ambientGlow {
   0%, 100% {
-    opacity: 0.2;
-    transform: scale(0.8);
+    opacity: 0.15;
+    transform: translate(0, 0) scale(1);
   }
-  50% {
-    opacity: 1;
-    transform: scale(1.2);
+  33% {
+    opacity: 0.25;
+    transform: translate(20px, -30px) scale(1.3);
+  }
+  66% {
+    opacity: 0.2;
+    transform: translate(-30px, 20px) scale(1.1);
   }
 }
 
-@keyframes sparkleRotate {
-  0% {
-    transform: rotate(0deg) scale(1);
+.ambient-glow {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, rgba(236, 72, 153, 0.3) 50%, transparent 70%);
+  animation: ambientGlow ease-in-out infinite;
+}
+
+/* Floating Particles - partikel melayang halus */
+@keyframes floatingParticle {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
     opacity: 0.3;
+  }
+  25% {
+    transform: translate(30px, -50px) scale(1.2);
+    opacity: 0.6;
   }
   50% {
-    transform: rotate(180deg) scale(1.5);
-    opacity: 1;
+    transform: translate(-20px, -100px) scale(0.8);
+    opacity: 0.4;
   }
-  100% {
-    transform: rotate(360deg) scale(1);
-    opacity: 0.3;
+  75% {
+    transform: translate(40px, -150px) scale(1.1);
+    opacity: 0.5;
   }
+}
+
+.floating-particle {
+  animation: floatingParticle ease-in-out infinite;
+}
+
+.particle-dot {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(168, 85, 247, 0.4) 50%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(1px);
 }
 
 @keyframes fadeInUp {
@@ -356,33 +341,8 @@ onUnmounted(() => {
   }
 }
 
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-.float-heart {
-  animation: floatUp linear infinite;
-}
-
-.twinkle-star {
-  animation: twinkle ease-in-out infinite;
-}
-
-.sparkle-effect {
-  animation: sparkleRotate ease-in-out infinite;
-}
-
 .fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
-}
-
-.pulse-btn {
-  animation: pulse 2s ease-in-out infinite;
+  animation: fadeInUp 1s ease-out forwards;
 }
 
 .typing-cursor {
