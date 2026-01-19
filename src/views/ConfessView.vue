@@ -20,10 +20,12 @@ let typingInterval = null
    CONTENT - URUTAN FINAL
 ====================== */
 const story = [
-  { type: 'text', content: 'Hahaha masukin nama siapapun orangnya juga udah pasti kamu, websitenya kan khusus dibuat untuk dibaca kamu' },
-  { type: 'text', content: 'Jadi, aku mau bilang sesuatu nih sama kamu' },
+  { type: 'text', content: 'Hahaha masukin nama siapapun orangnya juga udah pasti kamu, websitenya kan khusus dibuat untuk dibaca kamu, Rin' },
+  { type: 'text', content: 'Jadi, aku mau bilang sesuatu sama kamu' },
+  { type: 'text', content: 'Sesuatu yang selalu membuatku ragu' },
+  { type: 'text', content: 'Sesuatu yang selalu membuatku tidak nyenyak dalam tidur' },
   { type: 'text', content: 'Kamu tau kan aku lagi jatuh suka sama seseorang?' },
-  { type: 'text', content: 'dan, selama ini kamu tanya itu siapa, kan?' },
+  { type: 'text', content: 'dan, selama ini kamu tanya itu siapa, kan?' },  
   { type: 'text', content: 'Dr. Fachrudin Faiz bilang' },
   { type: 'video', video: 'confess.mp4', duration: 16000 },
   { type: 'text', content: 'Sebenarnya aku sudah bilang dan harusnya kamu tahu :)' },
@@ -31,21 +33,23 @@ const story = [
   { type: 'text', content: 'Tentang puisi "Jatuh suka"' },
   { type: 'video', video: 'suka.mp4', duration: 45000 },
   { type: 'text', content: 'Ya, aku suka dia, si pemilik nama Resti itu' },
+  { type: 'text', content: 'Aku baru berani nunjukkin sekarang setelah beberapa waktu menakar kepantasan diri' },
+  { type: 'text', content: 'Atas dirimu yang sungguh luar biasa itu 🙃' },
   { type: 'text', content: 'Tidak semua confess itu harus berakhir diterima dan bersama, kan?' },
   { type: 'text', content: 'Menolak juga bagian dari hak asasi manusia yang melekat padamu' },
-  { type: 'text', content: 'Apapun jawaban setelah ini, itu tidak akan mengurangi rasa syukurku mengenalmu.' },
+  { type: 'text', content: 'Apapun jawaban setelah ini, itu tidak akan mengurangi rasa bahagiaku mengenalmu.' },
   { type: 'text', content: 'Namun, kalau kamu terpikir kok bisa? sejak kapan? dan apa yang kusuka darimu?' },
   { type: 'text', content: 'Mungkin semua dimulai sejak kita ngopi bareng Zulfa waktu itu' },
   { type: 'text', content: 'Tepat saat kamu menanggapi cerita putusku dengan antusiasmu...' },
   { type: 'text', content: 'dan aku menatapmu' },
   { type: 'text', content: 'Sejak saat itu...' },
   { type: 'text', content: 'Aku suka bagaimana caramu menatapku' },
-  { type: 'text', content: 'Aku suka suara tawamu' },
+  { type: 'text', content: 'Aku suka suara tawamu yang sungguh candu' },
   { type: 'text', content: 'Aku pun suka cara kita mengobrol lewat chat tiap hari itu' },
-  { type: 'text', content: 'dan dengan waktu terjadi yang sesingkat itu' },
-  { type: 'text', content: 'Aku jatuh suka padamu' },
+  { type: 'text', content: 'dan dengan waktu terjadi yang sesingkat itu ...' },
+  { type: 'text', content: 'Aku jatuh suka padamu ❤️' },
   { type: 'text', content: 'Aku pernah seperti interaksi dari Tulus, meminta kepada Tuhan' },
-  { type: 'text', content: 'Jika memang bukan, tolong redalah perasaan ini, dan yaps malah membara' },
+  { type: 'text', content: 'Jika memang bukan, tolong redalah perasaan ini, dan yaps malah membara 🔥' },
   { type: 'text', content: 'Barangkali benar memang manusia tidak bisa memilih kapan untuk jatuh cinta' },
   { type: 'text', content: 'Sekalipun tidak pernah terpkirkan sebelumnya olehku, bahwa akan ada bunga di kebunku' },
   { type: 'text', content: 'Setelah sekian lama gersang, tiba-tiba kau hadir dan tumbuh dengan menawan' },  
@@ -308,7 +312,7 @@ onUnmounted(() => {
           <h2 class="text-2md mb-4">dibuat dengan penuh rasa suka 💕 <br> kepada pemilik nama </h2>
           <p class="text-4xl md:text-3xl font-bold text-white break-words"> RESTI</p>
           <h2 class="text-2md mb-4">dari aku</h2>
-          <p class="text-2xl md:text-2md font-bold text-white break-words"> Yang Sedang Duduk di Sebelahmu</p>
+          <p class="text-2xl md:text-2md font-bold text-white break-words"> Yang Sedang Duduk di Dekatmu</p>
           
         </div>
       </div>
